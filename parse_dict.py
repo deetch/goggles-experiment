@@ -1,8 +1,8 @@
 Coords = {
-    1: {"isValue": True},
-    2: {"isValue": True},
-    3: {"isValue": True},
-    4: {"isValue": True}
+    1: {"label": "x", "isValue": True},
+    2: {"label": "width", "isValue": True},
+    3: {"label": "y", "isValue": True},
+    4: {"label": "height", "isValue": True}
 }
 
 Info = {
