@@ -62,12 +62,17 @@ class Goggles:
 if __name__ == "__main__":
     from optparse import OptionParser
     import sys, re
-    parser = OptionParser()
+    usage = "usage: %prog [options] url/path-to-jpeg" 
+    parser = OptionParser(usage=usage)
     (options, args) = parser.parse_args()
     if len(args)==0:
-        print "url of jpeg needed"
+        print "url or path of jpeg needed"
         sys.exit(1)
-    img = ul.urlopen(args[0]).read()
+    if args[0].startswith("http"):
+        img = ul.urlopen(args[0]).read()
+    else:
+        with open(args[0]) as jpg:
+            img = jpg.read()
     if len(img)>140000:
         print "jpeg should be smaller than 140KB"
         sys.exit(1)
