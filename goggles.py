@@ -30,6 +30,7 @@ class Goggles:
     def __init__(self):
         self.headers = {"Content-Type": "application/x-protobuffer", "Pragma": "no-cache"}
         self.url = "http://www.google.com/goggles/container_proto?cssid=%s"
+        # the following string contains some magic ints and "iPhone OS 4.1 iPhone3GS" as "user-agent"
         self.activation_magic = "\x22\x00\x62\x3C\x0A\x13\x22\x02\x65\x6E\xBA\xD3\xF0\x3B\x0A\x08\x01\x10\x01\x28\x01\x30\x00\x38\x01\x12\x1D\x0A\x09\x69\x50\x68\x6F\x6E\x65\x20\x4F\x53\x12\x03\x34\x2E\x31\x1A\x00\x22\x09\x69\x50\x68\x6F\x6E\x65\x33\x47\x53\x1A\x02\x08\x02\x22\x02\x08\x01"
         self.init_cssid()
 

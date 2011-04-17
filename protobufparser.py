@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import struct
 import parse_dict
 # hack for reloading in ipython after edits
 reload(parse_dict)
@@ -26,24 +27,11 @@ def parse_varint(input, pos):
             print "error parsing varint"
             break
             
+def parse_32(input, pos):
+    return (struct.unpack('<I', input[pos:pos+4])[0], pos+4)
+
 def parse_64(input, pos):
-    res = 0
-    shift = 0
-    while True:
-        b = ord(input[pos])
-        res |= ((b & 0x7f) << shift)
-        pos += 1
-        if not (b & 0x80):
-            if res > 0x7fffffffffffffff:
-                res -= (1 << 64)
-                res |= ~((1 << 64) -1)
-            else:
-                res &= (1 << 64) - 1
-            return (res, pos)
-        shift += 7
-        if shift >= 64:
-            print "error parsing 64bit"
-            break
+    return (struct.unpack('<Q', input[pos:pos+8])[0], pos+8)
             
 def parse_tag(input, pos):
     start = pos
@@ -58,18 +46,26 @@ def parse_tag(input, pos):
 def parse(input, pos=0):
     res = []
     while pos is not None:
+        data = ""
+        #print repr(input[pos:])
         field, dtype, pos = parse_tag(input, pos)
+        #print GREEN, field, dtype, ENDC
         if dtype == "lengthdelim":
             length, pos = parse_varint(input, pos)
             data = input[pos:pos+length]
             pos += length
         elif dtype == "varint":
             data, pos = parse_varint(input, pos)
+        elif dtype == "32bit":
+            data, pos = parse_32(input, pos)
         elif dtype == "64bit":
             data, pos = parse_64(input, pos)
+        elif dtype == "startgroup":
+            data = "startgroup"
+        elif dtype == "endgroup":
+            data = "endgroup"
         else:
-            print "NEW DTYPE:", dtype
-            break
+            print RED+"NEW DTYPE:", dtype, ENDC
         if pos >= len(input):
             pos = None
         res.append((field, dtype, data))
