@@ -24,7 +24,7 @@ Info = {
                 "isValue": False,
                 "contents": {
                     1: {"label": "image to show", "isValue": True},
-                    2: {"label": "urllist", "isValue": False, "contents": {}},
+                    2: {"label": "url (list?)", "isValue": True, "contents": {}},
                     3: {"label": "site where the image originates", "isValue": True}
                 }
             },
@@ -59,6 +59,18 @@ ReplyItem = {
     } 
 }
 
+AlternativeInfo = {
+    1: {
+        "label": "Alternative Info",
+        "isValue": False,
+        "contents": Info
+    },
+    2: {
+        "label": "some 64bit value",
+        "isValue": True,
+    }
+}
+
 parse_dict = {
     1: {
         "label": "Reply",
@@ -72,7 +84,8 @@ parse_dict = {
             },
             15705729: {
                 "label": "unknown",
-                "isValue": True,
+                "isValue": False,
+                "contents": AlternativeInfo
             }
         }
     }
